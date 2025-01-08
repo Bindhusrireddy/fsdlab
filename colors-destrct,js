@@ -1,0 +1,10 @@
+
+
+const colors = ["red", "green", "blue", "yellow"];
+const [a,b]=colors;
+console.log(a);
+console.log(b);
+//const colors1= ["red", "green", "blue", "yellow"];
+ const [,c,,d]=colors;
+ console.log(c);
+ console.log(d);
