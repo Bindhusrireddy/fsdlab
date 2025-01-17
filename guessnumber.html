@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #message {
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Number Guessing Game</h1>
+    <p>Guess a number between 1 and 100.</p>
+    <input type="number" id="guess-input" placeholder="Enter your guess" />
+    <button id="submit-guess">Submit Guess</button>
+    <p id="message"></p>
+
+    <script>
+        class NumberGuessingGame {
+            constructor() {
+                this.targetNumber = null;
+                this.attempts = 0;
+                this.isGameActive = false;
+            }
+
+            // Start a new game
+            startNewGame() {
+                this.targetNumber = Math.floor(Math.random() * 100) + 1; // Random number between 1 and 100
+                this.attempts = 0;
+                this.isGameActive = true;
+                console.log("A new game has started! Guess a number between 1 and 100.");
+            }
+
+            // Check the user's guess
+            checkGuess(guess) {
+                if (!this.isGameActive) {
+                    console.log("The game is not active. Start a new game first!");
+                    return;
+                }
+
+                this.attempts++;
+                if (guess < this.targetNumber) {
+                    console.log("Higher!");
+                } else if (guess > this.targetNumber) {
+                    console.log("Lower!");
+                } else {
+                    console.log(
+                        `Congratulations! You guessed the correct number ${this.targetNumber} in ${this.attempts} attempts!`
+                    );
+                    this.resetGame();
+                }
+            }
+
+            // Reset the game state
+            resetGame() {
+                this.isGameActive = false;
+                console.log("Game over. Start a new game to play again.");
+            }
+        }
+        const game = new NumberGuessingGame();
+        game.startNewGame();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const inputField = document.getElementById("guess-input");
+            const submitButton = document.getElementById("submit-guess");
+            const messageDiv = document.getElementById("message");
+
+            submitButton.addEventListener("click", () => {
+                const guess = parseInt(inputField.value, 10);
+                if (isNaN(guess)) {
+                    messageDiv.textContent = "Please enter a valid number.";
+                    return;
+                }
+                game.checkGuess(guess);
+
+                if (game.isGameActive) {
+                    messageDiv.textContent = "";
+                } else {
+                    messageDiv.textContent = "Game over! Start a new game to play again.";
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
