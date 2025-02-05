@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Users</title>
+</head>
+<body>
+
+    <h1>Users List</h1>
+
+    <div id="userList"></div>
+
+    <script>
+        function getUsers(callback) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {  
+                    let users = JSON.parse(this.responseText);
+                    console.log(users);
+                    callback(users);
+                }
+            };
+            xhttp.open("GET", "users.json", true); 
+            xhttp.send();
+        }
+
+        getUsers(function(users) {
+            console.log('Users fetched:', users);
+            let userList = document.getElementById('userList');
+            for (let key in users) {
+                if (users.hasOwnProperty(key)) {
+                    let user = users[key];
+                    let userItem = document.createElement('div');
+                    userItem.innerHTML = `<strong>Name:</strong> ${user.name} <br> <strong>Age:</strong> ${user.age}<br><br>`;
+                    userList.appendChild(userItem);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
